@@ -1,10 +1,11 @@
 const searchJDK = require("./searchJDK");
 const { createConf } = require("./conf-file");
 const chalk = require('chalk');
+const path = require('path');
 
 function warning() {
-    console.log(chalk.yellow("Il ne vous reste plus qu'a exectué jdkm --set <alias>."));
-    console.log(chalk.yellow("N'oubliez pas d'ajouter '%JAVA_HOME%\\bin' à la variable d'environement PATH"));
+    console.log(chalk.yellow("Now you can run jdkm --set <alias> to update jdk version."));
+    console.log(chalk.yellow("Don't forget to add '%JAVA_HOME% " + path.sep + "bin' to the PATH"));
 }
 
 async function update(conf) {

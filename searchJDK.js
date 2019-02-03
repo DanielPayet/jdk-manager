@@ -45,6 +45,16 @@ function getPromptOption(versions) {
     });
 }
 
+function isAliasUnique(arr) {
+    arr.reduce((a, b) => {
+        if (a.indexOf(b) >= 0) {
+            console.log(chalk.red("Aliases must be unique."));
+            process.exit();
+        }
+        return a.concat(b);
+    }, []);
+}
+
 /**
  * @param {string[]} versions 
  * @returns {Promise<string>}
@@ -54,7 +64,9 @@ function getAlias(versions) {
         inquirer
             .prompt(getPromptOption(versions))
             .then(answers => {
-                res(Object.values(answers).map((alias, i) => {
+                const values = Object.values(answers);
+                isAliasUnique(values);
+                res(values.map((alias, i) => {
                     if (!alias || alias.trim() === "") {
                         return versions[i];
                     } else {
@@ -72,7 +84,7 @@ function getAlias(versions) {
  */
 function buildConfig(workingDir, name, version, alias) {
     return ({
-        folder: workingDir + '\\' + name,
+        folder: workingDir + path.sep + name,
         version: version,
         alias: alias
     });
@@ -89,9 +101,7 @@ async function searchJDK(workingDir) {
     console.log(chalk.cyan("Configuration des alias des jdk"));
     console.log(chalk.cyan("Par défaut la version du jdk sera utilisé."));
     const versions = jdkFolders.map(folder => getVersion(folder));
-    console.log(versions);
     const alias = await getAlias(versions);
-    console.log(alias);
     return jdkFolders.map((file, i) => buildConfig(workingDir, file, versions[i], alias[i]));
 }
 

@@ -2,12 +2,13 @@ const inquirer = require('inquirer');
 const searchJDK = require('./searchJDK');
 const { createConf } = require('./conf-file');
 const chalk = require('chalk');
+const path = require('path');
 
-const JAVA_FOLDER_DEFAULT_WIN = "C:\\Program Files\\Java";
+const DEFAULT_JAVA_WIN = "C:" + path.sep + "Program Files" + path.sep + "Java";
 
 function warning() {
-    console.log(chalk.yellow("Il ne vous reste plus qu'a exectué jdkm --set <alias>."));
-    console.log(chalk.yellow("N'oubliez pas d'ajouter '%JAVA_HOME%\\bin' à la variable d'environement PATH"));
+    console.log(chalk.yellow("Now you can run jdkm --set <alias> to update jdk version."));
+    console.log(chalk.yellow("Don't forget to add '%JAVA_HOME%" + path.sep + "bin' to the PATH"));
 }
 
 function init() {
@@ -16,12 +17,12 @@ function init() {
             {
                 name: "JAVA_DIR",
                 type: "input",
-                message: "Dossier des jdk (Default: " + JAVA_FOLDER_DEFAULT_WIN + ") : "
+                message: "Jdk's directory (Default: " + DEFAULT_JAVA_WIN + ") : "
             }
         ])
         .then(async (answers) => {
             if (!answers.JAVA_DIR || answers.JAVA_DIR.trim() === "") {
-                answers.JAVA_DIR = JAVA_FOLDER_DEFAULT_WIN;
+                answers.JAVA_DIR = JAVA_WIN;
             }
             createConf({ javaDir: answers.JAVA_DIR, jdk: await searchJDK(answers.JAVA_DIR) });
             warning();
