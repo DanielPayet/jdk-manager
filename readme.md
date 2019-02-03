@@ -1,5 +1,8 @@
 # jdk-manager
 
+/!\ For now, it only works on windows, but I plan to port it for linux and macOS. 
+
+
 ## Install
 
 ```console

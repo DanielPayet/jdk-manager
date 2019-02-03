@@ -8,7 +8,7 @@ const program = require('commander');
 const { setJDK, getCurrentJDK } = require('./exec');
 
 program
-    .version('0.0.1')
+    .version('1.0.1')
     .option('-i, --init', 'Create conf file')
     .option('-u, --update', 'Update conf file')
     .option('-c, --current', 'Actual version of jdk')
